@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Pacientes Registrados</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+</head>
+<body>
+    <h1>Pacientes Registrados</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>CURP</th>
+                <th>Panel Clínico</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for nombre, CURP in pacientes %}
+            <tr>
+                <td>{{ nombre }}</td>
+                <td>{{ CURP }}</td>
+                <td>
+                    <a href="/panel/{{ CURP }}">
+                        <button>Ver Panel</button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="/"><button>Volver al inicio</button></a>
+</body>
+</html>

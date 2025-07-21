@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signos Vitales</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+</head>
+<body>
+<h2>Panel clínico de {{ CURP }}</h2>
+<canvas id="grafico"></canvas>
+
+<table>
+    <thead>><tr>
+        <th>Fecha</th><th>Temperatura</th><th>Frecuencia</th>
+        <th>Respiración</th><th>Presión</th>
+    </tr></thead>
+    <tbody>
+        {% for fila in historial %}
+        <tr>
+            <td>{{ fila[0] }}</td><td>{{ fila[2] }}</td>
+            <td>{{ fila[1] }}</td><td>{{ fila [3] }}</td><td>{{ fila[4] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const datos = {{ historial | tojson }};
+    const fechas = datos.map(f => f[0]);
+    const temp = datos.map(f => f[2]);
+    const freq = datos.map(f => f[1]);
+
+    new Chart(document.getElementById('grafico'), {
+        type: 'line',
+        data: {
+            labels: fechas,
+            datasets: [
+                {label: "Temperatura (°C)", data: temp, borderColor: "blue"},
+                {label: "Frecuencia (lat/min)", data: freq, borderColor: "red"}
+            ]
+        }
+    });
+</script>
+</body>
+</html>
